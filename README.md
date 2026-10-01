@@ -91,4 +91,4 @@ app-measurement.com            graph.facebook.net
 
 ## Лицензия
 
-MIT — см. [LICENSE](LICENSE).
+
