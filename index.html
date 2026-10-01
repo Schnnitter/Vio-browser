@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light" data-tabpos="top" data-motion="on">
+<head>
+<meta charset="UTF-8">
+<title>Vio</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+  <header id="titlebar">
+    <div class="tb-left">
+      <button id="btn-menu" class="btn-icon logo-btn" title="Меню Vio (Alt+E)"></button>
+      <div id="tabs" class="tabs" role="tablist"></div>
+      <button id="btn-new-tab" class="btn-icon" title="Новая вкладка (Ctrl+T)"></button>
+      <button id="btn-new-private" class="btn-icon priv" title="Приватная вкладка (Ctrl+Shift+N)"></button>
+    </div>
+    <div class="tb-drag"></div>
+    <div class="tb-right">
+      <div id="tabstrip-tools">
+        <button id="btn-side" class="btn-icon on" title="Боковая панель (Ctrl+B)"></button>
+      </div>
+      <div class="win-ctl">
+        <button id="win-min" class="win-btn" title="Свернуть"></button>
+        <button id="win-max" class="win-btn" title="Развернуть"></button>
+        <button id="win-close" class="win-btn wclose" title="Закрыть окно"></button>
+      </div>
+    </div>
+  </header>
+
+  <div id="toolbar">
+    <div class="nav">
+      <button id="btn-back" class="btn-icon" title="Назад (Alt+←)"></button>
+      <button id="btn-fwd" class="btn-icon" title="Вперёд (Alt+→)"></button>
+      <button id="btn-reload" class="btn-icon" title="Обновить (Ctrl+R)"></button>
+      <button id="btn-home" class="btn-icon" title="Главная страница"></button>
+    </div>
+
+    <div id="omnibox" class="omnibox">
+      <span id="omni-ic" class="omni-ic"></span>
+      <input id="omni" type="text" spellcheck="false" autocomplete="off" placeholder="Поиск в Google или адрес сайта">
+      <button id="engine-btn" class="engine-btn" title="Выбрать поисковую систему"><span id="engine-mark"></span><span id="engine-name"></span><i class="caret"></i></button>
+      <button id="btn-star" class="btn-icon star" title="Добавить в закладки (Ctrl+D)"></button>
+      <button id="btn-dial" class="btn-icon" hidden title="Добавить в быстрый доступ"></button>
+      <div id="omni-suggest" class="dropdown suggest" hidden></div>
+      <div id="engine-menu" class="dropdown engine-menu" hidden></div>
+    </div>
+
+    <div class="tb-actions">
+      <button id="btn-find" class="btn-icon" title="Найти на странице (Ctrl+F)"></button>
+      <button id="btn-reader" class="btn-icon" title="Режим чтения (Ctrl+Alt+R)"></button>
+      <button id="btn-print" class="btn-icon" title="Печать (Ctrl+P)"></button>
+      <button id="btn-zoom" class="chip" hidden title="Масштаб страницы (Ctrl+±)"></button>
+      <button id="btn-dl" class="btn-icon" title="Загрузки (Ctrl+J)"><span id="dl-badge" class="badge" hidden></span></button>
+    </div>
+
+    <div id="loadbar"><i></i></div>
+  </div>
+
+  <div id="bmb-bar" class="bmb-bar" hidden></div>
+
+  <div id="main">
+    <nav id="rail">
+      <button class="rail-btn" data-panel="bookmarks" title="Закладки (Ctrl+Shift+O)"></button>
+      <button class="rail-btn" data-panel="history" title="История (Ctrl+H)"></button>
+      <button class="rail-btn" data-panel="downloads" title="Загрузки (Ctrl+J)"></button>
+      <button class="rail-btn" data-panel="services" title="Сервисы"></button>
+      <button class="rail-btn" data-panel="quotes" title="Копилка цитат"></button>
+      <button class="rail-btn" data-panel="ai" title="ИИ-чат (бесплатно, без ключа)"></button>
+      <div class="rail-spacer"></div>
+      <button class="rail-btn" data-panel="webPanels" title="Web-панели"></button>
+      <button class="rail-btn" data-panel="private" id="rail-private" title="Приватные данные"></button>
+      <button class="rail-btn" data-panel="settings" title="Настройки"></button>
+    </nav>
+
+    <aside id="panel">
+      <div class="panel-inner">
+        <div class="panel-head">
+          <div class="panel-title" id="panel-title">Закладки</div>
+          <div class="panel-tools" id="panel-tools"></div>
+          <button class="btn-icon" id="panel-close" title="Закрыть панель"></button>
+        </div>
+        <div class="panel-body" id="panel-body"></div>
+      </div>
+      <div id="panel-resize" title="Изменить ширину панели"></div>
+    </aside>
+
+    <div id="vtabs-slot" class="vtabs-slot" hidden></div>
+
+    <div id="content">
+      <div id="webviews"></div>
+      <section id="page-home" class="page" hidden></section>
+      <section id="page-settings" class="page" hidden></section>
+      <section id="page-read" class="page" hidden></section>
+
+      <div id="findbar" hidden>
+        <input id="find-input" type="text" placeholder="Найти на странице">
+        <span id="find-count"></span>
+        <button class="btn-mini" id="find-prev" title="Предыдущее">↑</button>
+        <button class="btn-mini" id="find-next" title="Следующее">↓</button>
+        <button class="btn-icon" id="find-close" title="Закрыть"></button>
+      </div>
+
+      <div id="errpage" hidden>
+        <div class="err-card">
+          <div class="err-logo"></div>
+          <h2 id="err-title">Не удалось открыть страницу</h2>
+          <p id="err-text"></p>
+          <div class="err-actions">
+            <button class="btn primary" id="err-retry">Повторить</button>
+            <button class="btn" id="err-home">На главную</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="toasts"></div>
+    </div>
+  </div>
+</div>
+
+<button id="zen-exit" class="btn" title="Выйти из дзен-режима (Ctrl+Shift+Z)">Только страница · выйти из дзена</button>
+<div id="menu-root"></div>
+
+<script src="scripts/icons.js"></script>
+<script src="scripts/engines.js"></script>
+<script src="scripts/store.js"></script>
+<script src="scripts/region.js"></script>
+<script src="scripts/i18n-dict.js"></script>
+<script src="scripts/i18n.js"></script>
+<script src="scripts/usercss.js"></script>
+<script src="scripts/blocklists.js"></script>
+<script src="scripts/content.js"></script>
+<script src="scripts/ocr.js"></script>
+<script src="scripts/ai-agent.js"></script>
+<script src="scripts/ai.js"></script>
+<script src="scripts/import.js"></script>
+<script src="scripts/sync.js"></script>
+<script src="scripts/pages.js"></script>
+<script src="node_modules/@mozilla/readability/Readability.js"></script>
+<script src="scripts/renderer.js"></script>
+</body>
+</html>

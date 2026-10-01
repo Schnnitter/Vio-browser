@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>YouTube</title>
+<style>
+  body { font: 14px/1.45 system-ui, sans-serif; margin: 0; background: #fff; color: #0f0f0f; }
+  header { display: flex; align-items: center; gap: 22px; padding: 12px 20px; border-bottom: 1px solid #e5e5e5; position: sticky; top: 0; background: #fff; }
+  #logo { font-weight: 800; font-size: 20px; text-decoration: none; color: #f00; }
+  #search-form { flex: 1; max-width: 560px; display: flex; gap: 8px; }
+  #search { flex: 1; padding: 9px 14px; border: 1px solid #ccc; border-radius: 20px; font: inherit; }
+  #search-btn { padding: 9px 18px; border: 1px solid #ccc; border-radius: 20px; background: #f8f8f8; cursor: pointer; }
+  main { padding: 22px; }
+  h1 { font-size: 18px; }
+  .card { border: 1px solid #e5e5e5; border-radius: 10px; padding: 12px; margin: 10px 0; }
+</style>
+</head>
+<body>
+  <header>
+    <a id="logo" href="#">YouTube</a>
+    <form id="search-form" role="search" onsubmit="return go(event)">
+      <input id="search" name="search_query" type="text" placeholder="Введите запрос" aria-label="Введите запрос" autocomplete="off">
+      <button id="search-btn" type="submit" aria-label="Искать">Найти</button>
+    </form>
+  </header>
+  <main>
+    <h1 id="title">Главная</h1>
+    <div id="results"><p class="card" id="hint">Введите запрос в строку поиска.</p></div>
+  </main>
+<script>
+function go (e) {
+  if (e) e.preventDefault()
+  var q = (document.getElementById('search').value || '').trim()
+  document.getElementById('title').textContent = 'Результаты поиска'
+  document.getElementById('results').innerHTML = q
+    ? '<div class="card">Найдено по запросу: <b id="q"></b></div>'
+    : '<p class="card" id="hint">Введите запрос в строку поиска.</p>'
+  if (q) document.getElementById('q').textContent = q
+  return false
+}
+</script>
+</body>
+</html>
