@@ -19,21 +19,11 @@
 
 ---
 
-## 🌟 Features
+##  Features
 
-* ⚡ **Lightning Fast** — Clean, responsive, and minimalist UI designed for smooth web browsing.
-* 🛠️ **Full Navigation Control** — Intuitive tab management, forward/backward history, and address bar controls.
-* 💻 **Cross-Platform** — Runs seamlessly on Windows, macOS, and Linux via Electron.
+*  **Lightning Fast** — Clean, responsive, and minimalist UI designed for smooth web browsing.
+*  **Full Navigation Control** — Intuitive tab management, forward/backward history, and address bar controls.
+*  **Cross-Platform** — Runs seamlessly on Windows, macOS, and Linux via Electron.
 * 🎨 **Minimalist Design** — Built without clutter so you can focus entirely on your content.
 
 ---
-
-## ⚙️ Installation & Setup
-
-Make sure you have [Node.js](https://nodejs.org/) installed on your system.
-
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/Schnnitter/Vio-browser.git](https://github.com/Schnnitter/Vio-browser.git)
-   cd Vio-browser
-
