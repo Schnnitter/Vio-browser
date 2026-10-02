@@ -51,7 +51,7 @@ The goal is simple: a browser that opens fast, looks calm and does not bury the 
     </td>
     <td width="33%" valign="top">
       <h4>Cross-platform</h4>
-      Runs on Windows, macOS and Linux through Electron.
+      Runs on Windows, through Electron.
     </td>
   </tr>
   <tr>
