@@ -50,7 +50,7 @@ The goal is simple: a browser that opens fast, looks calm and does not bury the 
       Tabs, back and forward history, and a proper address bar.
     </td>
     <td width="33%" valign="top">
-      <h4>Cross-platform</h4>
+      <h4>System</h4>
       Runs on Windows, through Electron.
     </td>
   </tr>
