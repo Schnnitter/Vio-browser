@@ -1,27 +1,126 @@
 {
   "name": "vio-browser",
   "productName": "Vio",
-  "version": "1.0.0",
-  "description": "Vio — современный быстрый браузер на Electron",
+  "version": "1.0.1",
+  "description": "Vio",
   "main": "main.js",
+  "author": "Schnnitter",
+  "license": "MIT",
+  "type": "commonjs",
   "scripts": {
     "start": "node scripts/launch.js",
     "icon": "node scripts/launch.js tools/make-icon.js",
-    "check": "node tools/check.js"
+    "check": "node tools/check.js",
+    "build": "electron-builder --win --publish always",
+    "build:win": "electron-builder --win",
+    "postinstall": "electron-builder install-app-deps",
+    "rebuild": "electron-rebuild -f -w better-sqlite3"
   },
   "keywords": [
     "browser",
     "electron",
     "vio"
   ],
-  "author": "",
-  "license": "MIT",
-  "type": "commonjs",
   "dependencies": {
     "@heyputer/puter.js": "^2.6.3",
     "@mozilla/readability": "^0.6.0",
     "@xenova/transformers": "^2.17.2",
     "better-sqlite3": "^13.0.3",
-    "electron": "^44.4.5"
+    "electron-log": "^5.4.4",
+    "electron-updater": "^6.8.9"
+  },
+  "devDependencies": {
+    "electron": "^44.4.5",
+    "electron-builder": "^26.0.12",
+    "electron-rebuild": "^3.2.9"
+  },
+  "build": {
+    "appId": "com.vio.browser",
+    "productName": "Vio",
+    "artifactName": "${productName}-Setup.${ext}",
+    "copyright": "Copyright © 2026 Schnnitter",
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**"
+    ],
+    "directories": {
+      "output": "dist",
+      "buildResources": "assets"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "styles.css",
+      "scripts/**/*",
+      "assets/icon.ico",
+      "assets/icon.png",
+      "assets/*.png",
+      "assets/*.jpg",
+      "!**/*.bak.*",
+      "!**/*.map"
+    ],
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Schnnitter",
+        "repo": "Vio-browser",
+        "releaseType": "release"
+      }
+    ],
+    "toolsets": {
+      "winCodeSign": "1.0.0"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Vio",
+      "include": "build/installer.nsh",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "deleteAppDataOnUninstall": false
+    },
+    "protocols": [
+      {
+        "name": "Vio Browser",
+        "schemes": ["http", "https"]
+      }
+    ],
+    "fileAssociations": [
+      {
+        "ext": ["htm", "html", "mhtml", "shtml", "xht"],
+        "name": "Vio HTML Document",
+        "description": "Vio HTML Document",
+        "role": "Viewer",
+        "icon": "assets/icon.ico"
+      },
+      {
+        "ext": "pdf",
+        "name": "Vio PDF Document",
+        "description": "Vio PDF Document",
+        "role": "Viewer",
+        "icon": "assets/icon.ico"
+      },
+      {
+        "ext": ["svg", "webp"],
+        "name": "Vio Image Document",
+        "description": "Vio Image Document",
+        "role": "Viewer",
+        "icon": "assets/icon.ico"
+      }
+    ]
   }
 }

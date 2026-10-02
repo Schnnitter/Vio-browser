@@ -979,9 +979,6 @@
             <summary>Что именно отключено</summary>
             <div class="about-flags-body" id="about-flags-body">загрузка…</div>
           </details>
-          <div style="margin-top:20px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
-            <button class="btn" id="about-ext">${ICON('external')} Сайт проекта</button>
-          </div>
         </div>
       </div>`
   }
@@ -1354,9 +1351,6 @@
       App.clearPrivateLists()
       toast('Данные приватного режима сброшены')
     }))
-
-    const ext = root.querySelector('#about-ext')
-    if (ext) ext.addEventListener('click', () => vio.openExternal('https://github.com'))
 
     const ver = root.querySelector('#about-ver')
     if (ver) vio.version().then(v => {

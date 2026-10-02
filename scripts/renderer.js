@@ -3549,6 +3549,20 @@
     stopFind: closeFind
   }
 
+  /* файл из аргументов запуска / из второго экземпляра: main прислал путь —
+     открываем его в новой вкладке (pages.js не трогаем) */
+  try {
+    const openFileFromOs = (filePath) => {
+      const p = String(filePath || '').trim()
+      if (!p) return
+      const url = 'file:///' + p.replace(/\\/g, '/')
+      if (window.App && App.newTab) App.newTab({ url, focus: true })
+      else if (window.App && App.navigate) App.navigate(url)
+    }
+    if (window.vioFileOpen && vioFileOpen.onOpen) vioFileOpen.onOpen(openFileFromOs)
+    else if (window.vio && vio.on) vio.on('vio:open-file', openFileFromOs)
+  } catch (e) {}
+
   /* dev: скан живого DOM для i18n (F12 → __vioI18nScan()).
      Возвращает массив русских строк текущего экрана без дублей.
      Сверка со словарём и сохранение — tools/i18n-live-scan.js */

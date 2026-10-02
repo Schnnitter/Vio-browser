@@ -4,3 +4,12 @@ shot*.png
 dist/
 out/
 .DS_Store
+node_modules/
+shot*.png
+*.log
+dist/
+out/
+.DS_Store
+build/win-unpacked/
+build/*.exe
+Thumbs.db

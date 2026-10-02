@@ -17,6 +17,9 @@ const VioImport = require('./scripts/import-main.js')
 const VioMind = require('./scripts/mind/db.js')
 const VioEmbed = require('./scripts/mind/embed.js')
 const VioGraph = require('./scripts/mind/graph.js')
+const { autoUpdater } = require('electron-updater')
+const log = require('electron-log/main')
+log.initialize()
 
 const SMOKE = process.env.VIO_SMOKE === '1'
 
@@ -31,6 +34,21 @@ const WIN_VER = (() => {
 })()
 const TOTAL_RAM_MB = Math.round((os.totalmem() || 0) / 1048576)
 let win = null
+
+/* путь к файлу из аргументов запуска (открытие файла из проводника):
+   в упакованном приложении argv[0] — путь к .exe, в разработке пропускаем
+   electron и путь к скрипту; берём первый аргумент, который является файлом */
+const pickFileArg = (argv) => {
+  const args = (argv || []).slice(app.isPackaged ? 1 : 2)
+  for (const a of args) {
+    if (!a || a.startsWith('-')) continue
+    try {
+      if (fs.existsSync(a) && fs.statSync(a).isFile()) return a
+    } catch (e) {}
+  }
+  return null
+}
+const FILE_ARG = pickFileArg(process.argv)
 
 app.setName('Vio')
 try {
@@ -824,9 +842,64 @@ function trackDownloads (contents) {
   })
 }
 
+/* один экземпляр Vio: клик по файлу в проводнике поднимает уже открытые
+   окно и передаёт путь в него, вместо второго экземпляра приложения;
+   в smoke-тестах блокировка снимается — тестовый запуск не должен гасить
+   уже открытый браузер */
+const gotLock = SMOKE ? true : app.requestSingleInstanceLock()
+if (!gotLock) {
+  app.quit()
+} else {
+  app.on('second-instance', (event, argv) => {
+    const filePath = pickFileArg(argv)
+    if (win && !win.isDestroyed()) {
+      if (win.isMinimized()) win.restore()
+      win.focus()
+      if (filePath) send('vio:open-file', filePath)
+    }
+  })
+}
+
 app.whenReady().then(() => {
+  if (!gotLock) return
+  // ===== АВТООБНОВЛЕНИЕ =====
+  autoUpdater.logger = log
+  autoUpdater.logger.transports.file.level = 'info'
+  autoUpdater.autoDownload = true
+  autoUpdater.autoInstallOnAppQuit = true
+
+  setTimeout(() => autoUpdater.checkForUpdatesAndNotify(), 5000)
+  setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 4 * 60 * 60 * 1000)
+
+  autoUpdater.on('checking-for-update', () => log.info('Проверка обновлений...'))
+  autoUpdater.on('update-available', (info) => log.info('Доступно обновление:', info.version))
+  autoUpdater.on('update-not-available', () => log.info('Обновлений нет'))
+  autoUpdater.on('error', (err) => log.error('Ошибка автообновления:', err))
+  autoUpdater.on('download-progress', (p) => log.info(`Загрузка: ${Math.round(p.percent)}%`))
+  autoUpdater.on('update-downloaded', async (info) => {
+    log.info('Обновление скачано:', info.version)
+    try {
+      const r = await dialog.showMessageBox(win, {
+        type: 'info',
+        title: 'Обновление готово',
+        message: `Версия ${info.version} скачана.`,
+        detail: 'Перезапустить Vio, чтобы применить обновление?',
+        buttons: ['Перезапустить сейчас', 'Позже'],
+        defaultId: 0,
+        cancelId: 1
+      })
+      if (r.response === 0) autoUpdater.quitAndInstall()
+    } catch (e) { log.error(e) }
+  })
+  // ===== КОНЕЦ АВТООБНОВЛЕНИЯ =====
+
   VioMind.init(app.getPath('userData'))
   createWindow()
+
+  /* файл из аргументов запуска — открываем в первом окне после загрузки */
+  if (FILE_ARG) {
+    win.webContents.once('did-finish-load', () => send('vio:open-file', FILE_ARG))
+  }
 
   /* разрешения сайтов: раньше всё разрешалось молча (allow-all) — теперь обычный
      запрос: безобидные — сразу, остальное (камера, микрофон, геолокация, уведомления,

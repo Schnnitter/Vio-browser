@@ -83,3 +83,8 @@ contextBridge.exposeInMainWorld('vio', {
   streamAbort: (id) => ipcRenderer.send('win:stream-abort', id),
   platform: process.platform
 })
+
+/* открытие файла из проводника (или второго экземпляра приложения) */
+contextBridge.exposeInMainWorld('vioFileOpen', {
+  onOpen: (cb) => ipcRenderer.on('vio:open-file', (e, p) => cb(p))
+})
