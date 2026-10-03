@@ -3542,6 +3542,7 @@
       } catch (e) { return '' }
     },
     openSettings, rerenderPages, toast, dialog, openPanel, closePanel,
+    panel: () => state.panel,
     reader: openReadingMode, printPage, togglePiP, saveSession,
     syncTabPosition, applyPanelWidth, syncRail: syncRailVisibility,
     renderBookmarksBar, accel, host,
