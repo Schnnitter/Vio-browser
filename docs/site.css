@@ -440,6 +440,7 @@ html[data-theme="dark"] .omni .lock { color: #6FCF97; }
 }
 .sd-tile.add { border-style: dashed; background: transparent; box-shadow: none; }
 .sd-tile.add svg { width: 18px; height: 18px; }
+a.sd-tile { text-decoration: none; color: var(--text-3); cursor: pointer; }
 
 /* ---------------- sections ---------------- */
 section { padding: clamp(56px, 8vh, 84px) 0 0; }

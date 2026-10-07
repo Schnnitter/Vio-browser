@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Тестовая форма Vio</title>
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; margin: 34px; color: #1b1f24; background: #f7f8fa; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: #5c6570; margin: 0 0 18px; }
+  form { background: #fff; border: 1px solid #d9dee5; border-radius: 10px; padding: 18px; max-width: 460px; }
+  label { display: block; font-weight: 600; font-size: 13px; margin: 12px 0 4px; }
+  input[type=text], input[type=email], select { width: 100%; box-sizing: border-box; padding: 8px 10px; border: 1px solid #c6ccd4; border-radius: 7px; font: inherit; }
+  .chk { display: flex; align-items: center; gap: 8px; margin-top: 14px; font-weight: 600; font-size: 13px; }
+  button { margin-top: 16px; padding: 9px 18px; border: none; border-radius: 8px; background: #2f6bff; color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+  button:hover { background: #1f57e0; }
+  #out { margin-top: 14px; padding: 10px 12px; border-radius: 8px; background: #eaf7ee; border: 1px solid #bfe3cb; color: #1c6b37; font-weight: 600; min-height: 20px; }
+  table { margin-top: 26px; border-collapse: collapse; background: #fff; width: 460px; }
+  th, td { border: 1px solid #d9dee5; padding: 7px 11px; font-size: 13.5px; text-align: left; }
+  th { background: #eef1f5; }
+  .note { color: #5c6570; font-size: 12.5px; margin-top: 22px; }
+</style>
+</head>
+<body>
+  <h1>Форма регистрации</h1>
+  <p class="sub">Страница для проверки: агент должен заполнить поля, выбрать город, поставить галочку и нажать кнопку.</p>
+
+  <form id="reg" onsubmit="return false">
+    <label for="name">Имя</label>
+    <input type="text" id="name" name="name" placeholder="Как вас зовут?">
+
+    <label for="email">Электронная почта</label>
+    <input type="email" id="email" name="email" placeholder="you@example.com">
+
+    <label for="city">Город</label>
+    <select id="city" name="city">
+      <option value="">— выберите —</option>
+      <option value="msk">Москва</option>
+      <option value="spb">Санкт-Петербург</option>
+      <option value="kzn">Казань</option>
+      <option value="nsk">Новосибирск</option>
+    </select>
+
+    <div class="chk"><input type="checkbox" id="agree"> Согласен с условиями</div>
+
+    <button id="sub" type="button">Отправить заявку</button>
+    <div id="out"></div>
+  </form>
+
+  <table id="prices">
+    <caption style="text-align:left;font-weight:700;padding:8px 0">Прайс-лист</caption>
+    <tr><th>Товар</th><th>Город</th><th>Цена</th></tr>
+    <tr><td>Кофе</td><td>Москва</td><td>320 ₽</td></tr>
+    <tr><td>Чай</td><td>Казань</td><td>180 ₽</td></tr>
+    <tr><td>Сок</td><td>Санкт-Петербург</td><td>250 ₽</td></tr>
+  </table>
+
+  <p class="note">Тестовая страница Vio · заголовок: «Форма регистрации» · штрих-код: FIXTURE-7788</p>
+
+  <script>
+    document.getElementById('sub').addEventListener('click', function () {
+      var n = document.getElementById('name').value.trim()
+      var e = document.getElementById('email').value.trim()
+      var c = document.getElementById('city')
+      var a = document.getElementById('agree').checked
+      var out = document.getElementById('out')
+      if (!n || !e || !c.value || !a) {
+        out.style.background = '#fdecec'; out.style.borderColor = '#f3c2c2'; out.style.color = '#a12626'
+        out.textContent = '✗ Заполните все поля и примите условия'
+        return
+      }
+      out.style.background = '#eaf7ee'; out.style.borderColor = '#bfe3cb'; out.style.color = '#1c6b37'
+      out.textContent = '✓ Заявка отправлена: ' + n + ' <' + e + '>, город: ' + c.options[c.selectedIndex].text
+    })
+  </script>
+</body>
+</html>

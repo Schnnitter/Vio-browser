@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Проверка</title>
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; margin: 40px auto; width: 520px; color: #1b1f24; }
+  .box { border: 1px solid #d9dee5; border-radius: 10px; padding: 18px; background: #fff; }
+  canvas { display: block; border: 1px solid #c6ccd4; border-radius: 8px; background: #fbfbf7; }
+  input { margin-top: 14px; padding: 9px 12px; width: 240px; border: 1px solid #c6ccd4; border-radius: 7px; font: inherit; }
+  button { margin-top: 12px; padding: 9px 18px; border: none; border-radius: 8px; background: #2f6bff; color: #fff; font: inherit; font-weight: 600; cursor: pointer; }
+  #out { margin-top: 12px; font-weight: 600; min-height: 22px; }
+  .ok { color: #1c6b37; } .bad { color: #b42318; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <h1>Введите код с картинки</h1>
+    <canvas id="cap" width="240" height="70"></canvas>
+    <br>
+    <input id="code" name="captcha" type="text" placeholder="Код с картинки">
+    <br>
+    <button id="send" type="button">Проверить</button>
+    <div id="out"></div>
+  </div>
+<script>
+  var CODE = 'K7P2'
+  var cv = document.getElementById('cap'), cx = cv.getContext('2d')
+  cx.fillStyle = '#fbfbf7'; cx.fillRect(0, 0, cv.width, cv.height)
+  for (var i = 0; i < 9; i++) {
+    cx.strokeStyle = 'rgba(120,130,150,.45)'; cx.beginPath()
+    cx.moveTo(Math.random() * 240, Math.random() * 70)
+    cx.lineTo(Math.random() * 240, Math.random() * 70); cx.stroke()
+  }
+  cx.font = 'bold 34px Georgia, serif'; cx.fillStyle = '#12203a'
+  for (var j = 0; j < CODE.length; j++) {
+    cx.save()
+    cx.translate(24 + j * 52, 46)
+    cx.rotate((Math.random() - 0.5) * 0.5)
+    cx.fillText(CODE[j], 0, 0)
+    cx.restore()
+  }
+  document.getElementById('send').onclick = function () {
+    var v = (document.getElementById('code').value || '').trim().toUpperCase().replace(/\s/g, '')
+    var o = document.getElementById('out')
+    if (v === CODE) { o.textContent = '✓ Капча пройдена'; o.className = 'ok' }
+    else { o.textContent = '✗ Неверный код'; o.className = 'bad' }
+  }
+</script>
+</body>
+</html>

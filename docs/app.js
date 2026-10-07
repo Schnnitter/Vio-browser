@@ -14,7 +14,7 @@
 
   var saved = null;
   try { saved = localStorage.getItem('vio-theme'); } catch (e) {}
-  apply(saved || 'light');
+  apply(saved || 'dark');
 
   document.getElementById('theme').addEventListener('click', function () {
     var next = root.dataset.theme === 'dark' ? 'light' : 'dark';
@@ -95,9 +95,10 @@
   if (omni && !reduced) {
     var words = [
       'vio://newtab',
-      'github.com/Schnnitter/Vio-browser',
-      'electronjs.org/docs/latest',
-      'news.ycombinator.com'
+      'youtube.com',
+      'store.steampowered.com',
+      'mail.google.com',
+      'github.com/Schnnitter/Vio-browser'
     ];
     var wi = 0, ci = 0, del = false;
     (function tick() {
